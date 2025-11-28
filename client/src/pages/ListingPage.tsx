@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../api';
-import { Calendar, User, Tag, Ticket, Filter } from 'lucide-react';
+import { Calendar, User, Ticket, Filter } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ListingModal from '../components/ListingModal';
 
 interface Listing {
   listing_id: string;
@@ -13,10 +14,37 @@ interface Listing {
   owner_id: string;
 }
 
+interface ListingDetails {
+  listing: Listing;
+  event: {
+    event_id: string;
+    event_name: string;
+    venue: string;
+  };
+  times: { event_time: string }[];
+  performers: { performer: string }[];
+  tickets: {
+    ticket_id: string;
+    seat_area: string;
+    seat_number: string;
+    price: number | null;
+    status: string;
+  }[];
+  seller: {
+    user_id: string;
+    user_name: string;
+    email: string;
+  };
+}
+
 const ListingPage = () => {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('All');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedListing, setSelectedListing] = useState<ListingDetails | null>(null);
+
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -33,9 +61,27 @@ const ListingPage = () => {
     fetchListings();
   }, []);
 
-  const filteredListings = filter === 'All' 
-    ? listings 
+  const filteredListings = filter === 'All'
+    ? listings
     : listings.filter(l => l.type === filter);
+
+  const openListingDetails = async (listingId: string) => {
+    setModalOpen(true);
+
+    try {
+      const res = await api.get(`/listings/${listingId}`);
+      setSelectedListing(res.data);
+    } catch (err) {
+      console.error('Failed to fetch listing details:', err);
+      alert('Failed to load listing details');
+      setModalOpen(false);
+    }
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedListing(null);
+  };
 
   if (loading) return <div className="text-center mt-10 text-gray-500">Loading listings...</div>;
 
@@ -104,7 +150,10 @@ const ListingPage = () => {
                  >
                     View Event
                  </Link>
-                 <button className="text-sm font-medium bg-white border border-gray-300 px-3 py-1 rounded hover:bg-gray-50 transition-colors">
+                 <button
+                    onClick={() => openListingDetails(listing.listing_id)}
+                    className="text-sm font-medium bg-white border border-gray-300 px-3 py-1 rounded hover:bg-gray-50 transition-colors"
+                 >
                     Details
                  </button>
               </div>
@@ -112,6 +161,13 @@ const ListingPage = () => {
           ))}
         </div>
       )}
+
+      <ListingModal
+        listing={selectedListing}
+        isOpen={modalOpen}
+        onClose={closeModal}
+        user={user}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../api';
-import { Ticket as TicketIcon, RefreshCw, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Ticket as TicketIcon, CheckCircle, XCircle } from 'lucide-react';
 
 interface Ticket {
   ticket_id: string;

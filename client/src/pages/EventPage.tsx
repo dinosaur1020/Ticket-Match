@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import api from '../api';
-import { Calendar, User, Tag } from 'lucide-react';
+import { Calendar, User } from 'lucide-react';
 
 interface Listing {
   listing_id: string;
@@ -114,38 +114,50 @@ const EventPage = () => {
       </div>
 
       <h2 className="text-2xl font-bold mb-4">Active Listings</h2>
-      <div className="space-y-4">
-        {listings.length === 0 ? (
-            <p>No active listings for this event.</p>
-        ) : (
-            listings.map(listing => (
-            <div key={listing.listing_id} className="bg-white p-6 rounded-lg shadow border border-gray-200 flex justify-between items-center">
-                <div>
-                <div className="flex items-center text-gray-500 mb-2">
-                    <Calendar className="h-4 w-4 mr-2" />
+      {listings.length === 0 ? (
+        <p>No active listings for this event.</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {listings.map(listing => (
+            <div key={listing.listing_id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200 overflow-hidden flex flex-col">
+              <div className="p-5 flex-grow">
+                <div className="flex justify-between items-start mb-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${
+                    listing.type === 'Sale' ? 'bg-green-100 text-green-800' :
+                    listing.type === 'Trade' ? 'bg-blue-100 text-blue-800' :
+                    'bg-orange-100 text-orange-800'
+                  }`}>
+                    {listing.type}
+                  </span>
+                  <span className="text-xs text-gray-400 font-mono">#{listing.listing_id}</span>
+                </div>
+
+                <h3 className="font-medium text-gray-900 mb-2 line-clamp-2">{listing.content}</h3>
+
+                <div className="space-y-2 mt-4">
+                  <div className="flex items-center text-sm text-gray-600">
+                    <Calendar className="h-4 w-4 mr-2 text-gray-400" />
                     <span>{new Date(listing.event_date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <User className="h-4 w-4 mr-2 text-gray-400" />
+                    <span>Seller: {listing.owner_id}</span>
+                  </div>
                 </div>
-                <div className="flex items-center text-gray-500 mb-2">
-                    <User className="h-4 w-4 mr-2" />
-                    <span>User: {listing.owner_id}</span>
-                </div>
-                <div className="flex items-center text-gray-500">
-                    <Tag className="h-4 w-4 mr-2" />
-                    <span className="capitalize">{listing.type}</span>
-                </div>
-                <p className="mt-2 text-gray-700">{listing.content}</p>
-                </div>
-                
-                <button 
-                    onClick={() => handleTrade(listing.listing_id, listing.owner_id)}
-                    className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+              </div>
+
+              <div className="bg-gray-50 px-5 py-3 border-t border-gray-100 flex justify-center">
+                <button
+                  onClick={() => handleTrade(listing.listing_id, listing.owner_id)}
+                  className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition font-medium"
                 >
-                    Trade
+                  Trade
                 </button>
+              </div>
             </div>
-            ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

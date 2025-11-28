@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts",
+    "dev": "nodemon --exec tsx src/index.ts",
+    "dev:fast": "tsx watch --clear-screen=false src/index.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +28,7 @@
     "@types/pg": "^8.15.6",
     "nodemon": "^3.1.11",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
 }

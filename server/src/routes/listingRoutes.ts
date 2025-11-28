@@ -4,6 +4,7 @@ import * as listingController from '../controllers/listingController';
 const router = Router();
 
 router.get('/', listingController.getListings);
+router.get('/:id', listingController.getListingDetails);
 router.post('/', listingController.createListing);
 
 export default router;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Ticket, User, LogOut } from 'lucide-react';
 
@@ -17,14 +16,16 @@ const Navbar = () => {
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <Ticket className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">TicketMatch</span>
-          </Link>
-          
           <div className="flex items-center space-x-6">
+            <Link to="/" className="flex items-center space-x-2">
+              <Ticket className="h-8 w-8 text-blue-600" />
+              <span className="text-xl font-bold text-gray-900">TicketMatch</span>
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-blue-600 font-medium">Events</Link>
             <Link to="/listings" className="text-gray-600 hover:text-blue-600 font-medium">Listings</Link>
-            
+          </div>
+
+          <div className="flex items-center">
             {user ? (
               <div className="flex items-center space-x-4">
                 <Link to="/dashboard" className="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
