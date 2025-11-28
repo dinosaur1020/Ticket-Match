@@ -18,6 +18,8 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
+# Allow example files
+!.env.example
 
 # Logs
 logs

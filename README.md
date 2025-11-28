@@ -4,10 +4,19 @@ TicketMatch is a ticket exchange and resale platform focusing on secure ownershi
 
 ## Prerequisites
 
-- Node.js (v14+)
+- Node.js (v16+ recommended)
 - PostgreSQL (v12+)
 
-## Setup Database
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/dinosaur1020/Ticket-Match.git
+cd Ticket-Match
+```
+
+### 2. Setup Database
 
 1. Create a PostgreSQL database named `ticketmatch`.
 2. Run the initialization script to create tables and indexes:
@@ -16,7 +25,7 @@ TicketMatch is a ticket exchange and resale platform focusing on secure ownershi
 psql -d ticketmatch -f server/database/init.sql
 ```
 
-## Setup Backend (Server)
+### 3. Setup Backend (Server)
 
 1. Navigate to the server directory:
    ```bash
@@ -27,17 +36,23 @@ psql -d ticketmatch -f server/database/init.sql
    npm install
    ```
 3. Configure environment variables:
-   - Create a `.env` file in `server/` based on `.env.example`.
-   - Ensure DB credentials match your local setup.
+   Copy the example environment file and update with your database credentials:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Then edit `.env` with your actual database credentials.
+
 4. Start the server:
    ```bash
    npm run dev
    ```
    Server runs on `http://localhost:3000`.
 
-## Setup Frontend (Client)
+### 4. Setup Frontend (Client)
 
-1. Navigate to the client directory:
+1. Open a new terminal and navigate to the client directory:
    ```bash
    cd client
    ```
@@ -49,7 +64,7 @@ psql -d ticketmatch -f server/database/init.sql
    ```bash
    npm run dev
    ```
-   Client runs on `http://localhost:5173`.
+   Client runs on `http://localhost:5173` (or `http://localhost:5174` if 5173 is busy).
 
 ## Usage Flow
 
