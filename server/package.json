@@ -7,6 +7,8 @@
     "dev": "nodemon --exec tsx src/index.ts",
     "dev:fast": "tsx watch --clear-screen=false src/index.ts",
     "build": "tsc",
+    "db:dump": "/Applications/Postgres.app/Contents/Versions/17/bin/pg_dump ticketmatch > database/dump.sql",
+    "db:restore": "/Applications/Postgres.app/Contents/Versions/17/bin/psql -d ticketmatch < database/dump.sql",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

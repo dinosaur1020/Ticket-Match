@@ -19,11 +19,16 @@ cd Ticket-Match
 ### 2. Setup Database
 
 1. Create a PostgreSQL database named `ticketmatch`.
-2. Run the initialization script to create tables and indexes:
+2. **Restore the database from dump:**
+   ```bash
+   # Restore from dump (includes schema + all data)
+   cd server && npm run db:restore
+   ```
 
-```bash
-psql -d ticketmatch -f server/database/init.sql
-```
+   **For maintainers: Create a new dump**
+   ```bash
+   cd server && npm run db:dump
+   ```
 
 ### 3. Setup Backend (Server)
 
