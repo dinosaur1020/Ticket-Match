@@ -3,9 +3,9 @@ import { Ticket, User, LogOut } from 'lucide-react';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  // Mock auth state
   const userString = localStorage.getItem('user');
   const user = userString ? JSON.parse(userString) : null;
+  const isAdmin = user && Array.isArray(user.roles) && user.roles.includes('Admin');
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -23,6 +23,11 @@ const Navbar = () => {
             </Link>
             <Link to="/" className="text-gray-600 hover:text-blue-600 font-medium">Events</Link>
             <Link to="/listings" className="text-gray-600 hover:text-blue-600 font-medium">Listings</Link>
+            {isAdmin && (
+              <Link to="/admin" className="text-gray-600 hover:text-blue-600 font-medium">
+                Admin
+              </Link>
+            )}
           </div>
 
           <div className="flex items-center">

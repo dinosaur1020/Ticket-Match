@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS USER_ROLE (
 );
 
 -- 4.3 EVENT
-CREATE TABLE IF NOT EXISTS EVENT (
+CREATE TABLE IF NOT EXISTS "EVENT" (
     event_id     VARCHAR(20) PRIMARY KEY,
     event_name   VARCHAR(100) NOT NULL,
     venue        VARCHAR(100)
@@ -99,3 +99,13 @@ CREATE INDEX IF NOT EXISTS idx_ticket_owner ON TICKET(owner_id);
 CREATE INDEX IF NOT EXISTS idx_trade_listing ON TRADE(listing_id);
 CREATE INDEX IF NOT EXISTS idx_trade_ticket_ticket ON TRADE_TICKET(ticket_id);
 
+-- Check if admin user exists
+SELECT user_id, user_name, email, user_status 
+FROM "USER" 
+WHERE email = 'admin@ticketmatch.com';
+
+-- Check if admin has the Admin role
+SELECT ur.user_id, ur.role, u.email, u.user_name
+FROM USER_ROLE ur
+JOIN "USER" u ON ur.user_id = u.user_id
+WHERE u.email = 'admin@ticketmatch.com';

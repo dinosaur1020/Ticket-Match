@@ -29,6 +29,7 @@ import eventRoutes from './routes/eventRoutes';
 import listingRoutes from './routes/listingRoutes';
 import ticketRoutes from './routes/ticketRoutes';
 import tradeRoutes from './routes/tradeRoutes';
+import adminRoutes from './routes/adminRoutes';
 
 // API routes
 app.use('/api/users', userRoutes);
@@ -36,6 +37,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/listings', listingRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/trades', tradeRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Start server
 const server = app.listen(port, () => {

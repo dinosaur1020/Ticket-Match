@@ -44,13 +44,52 @@ export const login = async (req: Request, res: Response) => {
 
     if (result.rows.length > 0) {
       const user = result.rows[0];
-      res.json({ message: 'Login successful', user });
+      
+      // Get user roles
+      const rolesResult = await db.query(
+        'SELECT role FROM USER_ROLE WHERE user_id = $1',
+        [user.user_id]
+      );
+      
+      const roles = rolesResult.rows.map((r: any) => r.role);
+      
+      res.json({ 
+        message: 'Login successful', 
+        user: {
+          ...user,
+          roles
+        }
+      });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Login failed' });
+  }
+};
+
+
+// Get current user's roles
+export const getMyRoles = async (req: Request, res: Response) => {
+  const { user_id } = req.body;
+  
+  if (!user_id) {
+    return res.status(400).json({ error: 'user_id is required' });
+  }
+  
+  try {
+    const result = await db.query(
+      'SELECT role FROM USER_ROLE WHERE user_id = $1',
+      [user_id]
+    );
+    
+    res.json({ 
+      roles: result.rows.map((r: any) => r.role) 
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch roles' });
   }
 };
 
